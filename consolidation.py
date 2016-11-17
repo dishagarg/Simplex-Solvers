@@ -5,9 +5,9 @@ import argparse
 import csv
 import numpy as np
 import sys
-from numpy import linalg
 import project_part1 as pt1
 import project_part2 as pt2
+import project_part3 as pt3
 
 
 class Project:
@@ -66,59 +66,26 @@ class Project:
 
         x_starB = self.b
         z_star_n = -1 * self.c
+        objective = 0
 
         # For Primal Infeasibility
         if min(x_starB) < 0.0 and min(z_star_n) >= 0.0:
             print "[Error]: The problem is Primal Infeasible."
             print "So, performing Dual Simplex Method..."
-            pt2.dual_simplex_solver(x_starB, matrix_B, matrix_N, z_star_n, self.b, self.c, self.Beta, self.Nu)
+            pt2.dual_simplex_solver(x_starB, matrix_B, matrix_N, z_star_n, self.b, self.c, self.Beta, self.Nu, objective)
             sys.exit()
 
         # For Dual Infeasibility
         if min(z_star_n) < 0.0 and min(x_starB) >= 0.0:
             print "[Error]: The problem is Dual Infeasible."
             print "So, performing Primal Simplex Method..."
-            pt1.primal_simplex_solver(z_star_n, matrix_B, matrix_N, x_starB, self.b, self.c, self.Beta, self.Nu)
+            pt1.primal_simplex_solver(z_star_n, matrix_B, matrix_N, x_starB, self.b, self.c, self.Beta, self.Nu, objective)
             sys.exit()
 
         # For Dual and Primal Infeasibility
         if min(z_star_n) < 0.0 and min(x_starB) < 0.0:
             print "The problem is Dual and Primal Infeasible."
-            z_star_n = np.absolute(z_star_n)
-            z_star_n, x_starB, matrix_B, matrix_N, self.Beta = pt2.dual_simplex_solver(x_starB, matrix_B, matrix_N, z_star_n, self.b, self.c, self.Beta, self.Nu)
-            A_matrix = -1 * np.dot(linalg.inv(matrix_B), matrix_N)
-            sums = 0
-            arr = []
-            index_arr = []
-            for i in range(len(self.c)):
-                if i + 1 in self.Beta:
-                    index = np.where(self.Beta == i + 1)
-                    sums += self.c[i] * x_starB[index].squeeze()
-                    arr.append(self.c[i] * (A_matrix[index, :].squeeze()))
-                    index_arr.append(self.Nu)
-            index_arr = np.asarray(index_arr)
-            arr_indx = np.asarray(arr)
-            another_arr = []
-            for i in index_arr[0, :]:
-                sumo = 0
-                item = np.where(index_arr == i)
-                sumo += np.sum(arr_indx[item].squeeze())
-                if arr_indx[item].size != 0:
-                    another_arr.append(sumo)
-
-            another_arr = np.asarray(another_arr)
-            for i in range(1, len(self.Nu) + 1):
-                item = np.where(self.Nu == i)
-                sume = another_arr[item].squeeze() + self.c[item].squeeze()
-                if sume.size != 0:
-                    z_star_n[i - 1] = another_arr[item].squeeze() + self.c[item].squeeze()
-                else:
-                    z_star_n[i - 1] = another_arr[i - 1].squeeze()
-            if np.min(z_star_n) >= 0.0:
-                print "Optimal Solution: ", sums
-            else:
-                self.c = 1 * z_star_n
-                pt1.primal_simplex_solver(z_star_n, matrix_B, matrix_N, x_starB, self.b, self.c, self.Beta, self.Nu)
+            pt3.primal_dual_simplex_solver(z_star_n, matrix_B, matrix_N, x_starB, self.b, self.c, self.Beta, self.Nu, objective)
             sys.exit()
 
 
