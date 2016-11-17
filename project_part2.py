@@ -27,6 +27,7 @@ def dual_simplex_solver(x_star_b, matrix_B, matrix_N, z_starN, b, c, Beta, Nu, o
         e_i = np.zeros(x_star_b.shape)
         e_j = np.zeros(c.shape)
         e_i[itemindex_i[0]] = 1
+
         mult = -1 * (np.transpose(np.dot(linalg.inv(matrix_B), matrix_N)))
         delta_z_n = (np.dot(mult, e_i))
 
@@ -79,6 +80,7 @@ def dual_simplex_solver(x_star_b, matrix_B, matrix_N, z_starN, b, c, Beta, Nu, o
         matrix_N[:, itemindex[0]], matrix_B[:, itemindex_i[0]] = matrix_B[:, itemindex_i[0]], matrix_N[:, itemindex[0]]
 
     # Objective Function Comptation [c_B]'*[B^-1]*b
+    optimal_value = 0
     print "\t[Optimal Solution found]"
     for i in range(len(c)):
         if i + 1 in Beta:
