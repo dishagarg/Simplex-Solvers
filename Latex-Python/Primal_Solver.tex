@@ -1,0 +1,212 @@
+\documentclass [12pt] {article}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[super]{nth}
+\pagestyle{plain}
+\begin{document}
+
+\section{Primal Simplex Method.}
+The matrix A is given by
+\[
+\begin{bmatrix} 1.0 & 4.0 & 0.0 \\ 3.0 & -1.0 & 1.0 \\ \end{bmatrix}.
+\]
+The initial sets of basic and nonbasic indices are
+\[
+{\mathcal B} = \left \{ 4, 5 \right \}  \quad
+and    \quad
+{\mathcal N} = \left \{ 1, 2, 3 \right \}.
+\]
+Corresponding to these sets, we have the submatrices of A:
+\[
+B = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \\ \end{bmatrix}   \quad
+N = \begin{bmatrix} 1.0 & 4.0 & 0.0 \\ 3.0 & -1.0 & 1.0 \\ \end{bmatrix},
+\]
+and the initial values of the basic variables are given by
+\[
+ x^*_{\mathcal B} = b = \begin{bmatrix} 1.0 \\ 3.0 \\ \end{bmatrix} ,   
+\]
+and the initial nonbasic dual variables are simply
+\[
+z^*_{\mathcal N} = -c_{\mathcal N} = \begin{bmatrix} -4.0 \\ -1.0 \\ -3.0 \\ \end{bmatrix}.
+\]
+
+\subsection{ \nth{1} Iteration.}
+\textit{Step 1. } Since \textit{z}$^*_{\mathcal N}$ has some negative components, the current solution is not optimal.\\
+\textit{Step 2. } Since \textit{z}$^*_1$ = -4.0 and this is the most negative of the two nonbasic dual variables, we see that the entering index is
+\[
+j = 1.
+\]
+\textit{Step 3. }
+\[
+\Delta X_{\mathcal B} = B^{-1} N e_j = \begin{bmatrix} 1.0 & 4.0 & 0.0 \\ 3.0 & -1.0 & 1.0 \\ \end{bmatrix}
+\begin{bmatrix} 1.0 \\ 0.0 \\ 0.0 \\ \end{bmatrix}
+= \begin{bmatrix} 1.0 \\ 3.0 \\ \end{bmatrix}
+.
+\]
+\textit{Step 4. }
+\[
+t = \left ( max \left \{ \frac{1.0}{1.0} , \frac{3.0}{3.0} \right \} \right )^{-1}   = 1.0.
+\]\textit{Step 5.} Since the ratio that achieved the maximum in Step 4 was the \nth{1} ratio and this ratio corresponds to basis index 4, we see that
+\[
+i = 4.
+\]
+\textit{Step 6. } 
+\[
+\Delta z_{\mathcal N} = -\left (B^{-1} N \right )^T e_i = - \begin{bmatrix} 1.0 & 3.0 \\ 4.0 & -1.0 \\ 0.0 & 1.0 \\ \end{bmatrix}
+\begin{bmatrix} 1.0 \\ 0.0 \\ \end{bmatrix}
+= \begin{bmatrix} -1.0 \\ -4.0 \\ -0.0 \\ \end{bmatrix}.
+\]
+\textit{Step 7. } 
+\[
+s =  \frac{z^*_j}{\Delta z_j} = \frac{ -4.0 }{ -1.0 } = 4.0.
+\]
+\textit{Step 8.}
+\[
+x^*_1 = 1.0,        x^*_{\mathcal B} = 
+\begin{bmatrix} 1.0 \\ 3.0 \\ \end{bmatrix} - 1.0 \begin{bmatrix} 1.0 \\ 3.0 \\ \end{bmatrix} = \begin{bmatrix} 0.0 \\ 0.0 \\ \end{bmatrix} ,
+\]
+\[
+z^*_4 = 4.0,        z^*_{\mathcal N} = 
+\begin{bmatrix} -4.0 \\ -1.0 \\ -3.0 \\ \end{bmatrix} - 4.0 \begin{bmatrix} -1.0 \\ -4.0 \\ -0.0 \\ \end{bmatrix} = \begin{bmatrix} 0.0 \\ 15.0 \\ -3.0 \\ \end{bmatrix} .
+\]
+\textit{Step 9.} The new sets of basic and nonbasic indices are
+\[
+{\mathcal B} = \left \{ 1, 5 \right \}  \quad
+and    \quad
+{\mathcal N} = \left \{ 4, 2, 3 \right \}.
+\]
+Corresponding to these sets, we have the new basic and nonbasic submatrices of A,
+\[
+B = \begin{bmatrix} 1.0 & 0.0 \\ 3.0 & 1.0 \\ \end{bmatrix}  \quad
+N = \begin{bmatrix} 1.0 & 4.0 & 0.0 \\ 0.0 & -1.0 & 1.0 \\ \end{bmatrix},
+\]
+and the new basic primal variables and nonbasic dual variables:
+\[
+ x^*_{\mathcal B} = 
+\begin{bmatrix} x^*_1 \\ x^*_5 \end{bmatrix} = \begin{bmatrix} 1.0 \\ 0.0 \\ \end{bmatrix} ,   \quad
+z^*_{\mathcal N} = 
+\begin{bmatrix} z^*_4 \\ z^*_2 \\ z^*_3 \end{bmatrix} = \begin{bmatrix} 4.0 \\ 15.0 \\ -3.0 \\ \end{bmatrix}.
+\]
+
+\subsection{ \nth{2} Iteration.}
+\textit{Step 1. } Since \textit{z}$^*_{\mathcal N}$ has some negative components, the current solution is not optimal.\\
+\textit{Step 2. } Since \textit{z}$^*_3$ = -3.0 and this is the most negative of the two nonbasic dual variables, we see that the entering index is
+\[
+j = 3.
+\]
+\textit{Step 3. }
+\[
+\Delta X_{\mathcal B} = B^{-1} N e_j = \begin{bmatrix} 1.0 & 4.0 & 0.0 \\ -3.0 & -13.0 & 1.0 \\ \end{bmatrix}
+\begin{bmatrix} 0.0 \\ 0.0 \\ 1.0 \\ \end{bmatrix}
+= \begin{bmatrix} 0.0 \\ 1.0 \\ \end{bmatrix}
+.
+\]
+\textit{Step 4. }
+\[
+t = \left ( max \left \{ \frac{0.0}{1.0} , \frac{1.0}{0.0} \right \} \right )^{-1}   = 0.0.
+\]\textit{Step 5.} Since the ratio that achieved the maximum in Step 4 was the \nth{2} ratio and this ratio corresponds to basis index 5, we see that
+\[
+i = 5.
+\]
+\textit{Step 6. } 
+\[
+\Delta z_{\mathcal N} = -\left (B^{-1} N \right )^T e_i = - \begin{bmatrix} 1.0 & -3.0 \\ 4.0 & -13.0 \\ 0.0 & 1.0 \\ \end{bmatrix}
+\begin{bmatrix} 0.0 \\ 1.0 \\ \end{bmatrix}
+= \begin{bmatrix} 3.0 \\ 13.0 \\ -1.0 \\ \end{bmatrix}.
+\]
+\textit{Step 7. } 
+\[
+s =  \frac{z^*_j}{\Delta z_j} = \frac{ -3.0 }{ -1.0 } = 3.0.
+\]
+\textit{Step 8.}
+\[
+x^*_3 = 0.0,        x^*_{\mathcal B} = 
+\begin{bmatrix} 1.0 \\ 0.0 \\ \end{bmatrix} - 0.0 \begin{bmatrix} 0.0 \\ 1.0 \\ \end{bmatrix} = \begin{bmatrix} 1.0 \\ 0.0 \\ \end{bmatrix} ,
+\]
+\[
+z^*_5 = 3.0,        z^*_{\mathcal N} = 
+\begin{bmatrix} 4.0 \\ 15.0 \\ -3.0 \\ \end{bmatrix} - 3.0 \begin{bmatrix} 3.0 \\ 13.0 \\ -1.0 \\ \end{bmatrix} = \begin{bmatrix} -5.0 \\ -24.0 \\ 0.0 \\ \end{bmatrix} .
+\]
+\textit{Step 9.} The new sets of basic and nonbasic indices are
+\[
+{\mathcal B} = \left \{ 1, 3 \right \}  \quad
+and    \quad
+{\mathcal N} = \left \{ 4, 2, 5 \right \}.
+\]
+Corresponding to these sets, we have the new basic and nonbasic submatrices of A,
+\[
+B = \begin{bmatrix} 1.0 & 0.0 \\ 3.0 & 1.0 \\ \end{bmatrix}  \quad
+N = \begin{bmatrix} 1.0 & 4.0 & 0.0 \\ 0.0 & -1.0 & 1.0 \\ \end{bmatrix},
+\]
+and the new basic primal variables and nonbasic dual variables:
+\[
+ x^*_{\mathcal B} = 
+\begin{bmatrix} x^*_1 \\ x^*_3 \end{bmatrix} = \begin{bmatrix} 1.0 \\ 0.0 \\ \end{bmatrix} ,   \quad
+z^*_{\mathcal N} = 
+\begin{bmatrix} z^*_4 \\ z^*_2 \\ z^*_5 \end{bmatrix} = \begin{bmatrix} -5.0 \\ -24.0 \\ 3.0 \\ \end{bmatrix}.
+\]
+
+\subsection{ \nth{3} Iteration.}
+\textit{Step 1. } Since \textit{z}$^*_{\mathcal N}$ has some negative components, the current solution is not optimal.\\
+\textit{Step 2. } Since \textit{z}$^*_2$ = -24.0 and this is the most negative of the two nonbasic dual variables, we see that the entering index is
+\[
+j = 2.
+\]
+\textit{Step 3. }
+\[
+\Delta X_{\mathcal B} = B^{-1} N e_j = \begin{bmatrix} 1.0 & 4.0 & 0.0 \\ -3.0 & -13.0 & 1.0 \\ \end{bmatrix}
+\begin{bmatrix} 0.0 \\ 1.0 \\ 0.0 \\ \end{bmatrix}
+= \begin{bmatrix} 4.0 \\ -13.0 \\ \end{bmatrix}
+.
+\]
+\textit{Step 4. }
+\[
+t = \left ( max \left \{ \frac{4.0}{1.0} , \frac{-13.0}{0.0} \right \} \right )^{-1}   = 0.25.
+\]\textit{Step 5.} Since the ratio that achieved the maximum in Step 4 was the \nth{1} ratio and this ratio corresponds to basis index 1, we see that
+\[
+i = 1.
+\]
+\textit{Step 6. } 
+\[
+\Delta z_{\mathcal N} = -\left (B^{-1} N \right )^T e_i = - \begin{bmatrix} 1.0 & -3.0 \\ 4.0 & -13.0 \\ 0.0 & 1.0 \\ \end{bmatrix}
+\begin{bmatrix} 1.0 \\ 0.0 \\ \end{bmatrix}
+= \begin{bmatrix} -1.0 \\ -4.0 \\ -0.0 \\ \end{bmatrix}.
+\]
+\textit{Step 7. } 
+\[
+s =  \frac{z^*_j}{\Delta z_j} = \frac{ -24.0 }{ -4.0 } = 6.0.
+\]
+\textit{Step 8.}
+\[
+x^*_2 = 0.25,        x^*_{\mathcal B} = 
+\begin{bmatrix} 1.0 \\ 0.0 \\ \end{bmatrix} - 0.25 \begin{bmatrix} 4.0 \\ -13.0 \\ \end{bmatrix} = \begin{bmatrix} 0.0 \\ 3.25 \\ \end{bmatrix} ,
+\]
+\[
+z^*_1 = 6.0,        z^*_{\mathcal N} = 
+\begin{bmatrix} -5.0 \\ -24.0 \\ 3.0 \\ \end{bmatrix} - 6.0 \begin{bmatrix} -1.0 \\ -4.0 \\ -0.0 \\ \end{bmatrix} = \begin{bmatrix} 1.0 \\ 0.0 \\ 3.0 \\ \end{bmatrix} .
+\]
+\textit{Step 9.} The new sets of basic and nonbasic indices are
+\[
+{\mathcal B} = \left \{ 2, 3 \right \}  \quad
+and    \quad
+{\mathcal N} = \left \{ 4, 1, 5 \right \}.
+\]
+Corresponding to these sets, we have the new basic and nonbasic submatrices of A,
+\[
+B = \begin{bmatrix} 4.0 & 0.0 \\ -1.0 & 1.0 \\ \end{bmatrix}  \quad
+N = \begin{bmatrix} 1.0 & 1.0 & 0.0 \\ 0.0 & 3.0 & 1.0 \\ \end{bmatrix},
+\]
+and the new basic primal variables and nonbasic dual variables:
+\[
+ x^*_{\mathcal B} = 
+\begin{bmatrix} x^*_2 \\ x^*_3 \end{bmatrix} = \begin{bmatrix} 0.25 \\ 3.25 \\ \end{bmatrix} ,   \quad
+z^*_{\mathcal N} = 
+\begin{bmatrix} z^*_4 \\ z^*_1 \\ z^*_5 \end{bmatrix} = \begin{bmatrix} 1.0 \\ 6.0 \\ 3.0 \\ \end{bmatrix}.
+\]
+
+\subsection{ \nth{4} Iteration.}
+\textit{Step 1. } Since \textit{z}$^*_{\mathcal N}$ has all nonnegative components, the current solution is optimal. The optimal objective function value is
+\[
+\zeta^* = 4.0x^*_1  +  1.0x^*_2  +  3.0x^*_3 = [ 10.]
+\]
+\end{document}
